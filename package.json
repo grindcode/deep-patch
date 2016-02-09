@@ -24,7 +24,9 @@
     "map",
     "apply",
     "merge",
-    "secuencial"
+    "sequential",
+    "functional",
+    "immutable"
   ],
   "author": "Isis T. Baulig",
   "license": "MIT",

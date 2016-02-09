@@ -3,6 +3,45 @@ var merge = require('lodash.merge')
 var reduce = require('lodash.reduce')
 var concat = require('lodash.concat')
 var traverse = require('traverse')
+
+// List of available operations
+var operations = [{
+    key: '$set',
+    run: function (node, source) {
+      return node
+    }
+  }, {
+    key: '$push',
+    run: function (node, source) {
+      return (source)? concat(source, [node]): [node]
+    }
+  }, {
+    key: '$unshift',
+    run: function (node, source) {
+      return (source)? concat([node], source): [node]
+    }
+  }, {
+    key: '$filter',
+    run: function (node, source) {
+      return source.filter(node)
+    }
+  }, {
+    key: '$map',
+    run: function (node, source) {
+      return source.map(node)
+    }
+  }, {
+    key: '$apply',
+    run: function (node, source) {
+      return node.call(null, source)
+    }
+  }, {
+    key: '$merge',
+    run: function (node, source) {
+      return merge(source, node)
+    }
+  }]
+
 /**
  * Modify an object recursively by an array of sequential patches.
  * @param {Object} input - Object input.
@@ -15,44 +54,21 @@ module.exports = function (input, patches) {
   if (!Array.isArray(patches))
     throw new TypeError('Invalid second argument. Array is expected.')
   var apply = function (source, patch) {
-    var traversedPatch = traverse(patch)
-    var traversedSource = traverse(source)
-    var getSource = function (path) {
-      return traversedSource.get(path)
-    }
+    var tpatch = traverse(patch)
+    var tsource = traverse(source)
     var transformNode = function (node) {
-      var isOperation = function (name) {
-        return node.hasOwnProperty(name)
-      }
-      if (typeof node !== 'object') {
+      if (typeof node !== 'object' || Array.isArray(node))
         return node
+      var path = this.path
+      var reduceOperations = function (result, operation) {
+        if ({}.hasOwnProperty.call(node, operation.key)) {
+          return operation.run(node[operation.key], tsource.get(path))
+        }
+        return result
       }
-      if (isOperation('$set')) {
-        return node.$set
-      }
-      if (isOperation('$push')) {
-        var sourceNode = getSource(this.path)
-        return (sourceNode)? concat(sourceNode, [node.$push]): [node.$push]
-      }
-      if (isOperation('$unshift')) {
-        var sourceNode = getSource(this.path)
-        return (sourceNode)? concat([node.$unshift], sourceNode): [node.$unshift]
-      }
-      if (isOperation('$filter')) {
-        return getSource(this.path).filter(node.$filter)
-      }
-      if (isOperation('$map')) {
-        return getSource(this.path).map(node.$map)
-      }
-      if (isOperation('$apply')) {
-        return node.$apply.call(source, getSource(this.path))
-      }
-      if (isOperation('$merge')) {
-        return merge(getSource(this.path), node.$merge)
-      }
-      return node
+      return reduce(operations, reduceOperations, node)
     }
-    return assign({}, source, traversedPatch.map(transformNode))
+    return assign({}, source, tpatch.map(transformNode))
   }
   return reduce(patches, apply, input)
 }
