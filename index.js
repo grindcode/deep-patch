@@ -21,23 +21,38 @@ module.exports = function (obj, mods) {
       var isOperation = function (name) {
         return node.hasOwnProperty(name)
       }
+      var getSource = function () {
+        return traversedSource.get(this.path)
+      }
+
       if (typeof node !== 'object')
         return node
+
       if (isOperation('$set'))
         return node.$set
-      var sourceNode = traversedSource.get(this.path)
-      if (isOperation('$push'))
+
+      if (isOperation('$push')) {
+        var sourceNode = getSource()
         return (sourceNode)? concat(sourceNode, [node.$push]): [node.$push]
-      if (isOperation('$unshift'))
+      }
+
+      if (isOperation('$unshift')) {
+        var sourceNode = getSource()
         return (sourceNode)? concat([node.$unshift], sourceNode): [node.$unshift]
+      }
+
       if (isOperation('$filter'))
-        return sourceNode.filter(node.$filter)
+        return getSource().filter(node.$filter)
+
       if (isOperation('$map'))
-        return sourceNode.map(node.$map)
+        return getSource().map(node.$map)
+
       if (isOperation('$apply'))
-        return node.$apply.call(source, sourceNode)
+        return node.$apply.call(source, getSource())
+
       if (isOperation('$merge'))
-        return merge(sourceNode, node.$merge)
+        return merge(getSource(), node.$merge)
+
       return node
     }
     return assign({}, source, traversedMod.map(transformNode))
