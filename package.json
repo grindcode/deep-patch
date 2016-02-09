@@ -1,0 +1,47 @@
+{
+  "name": "deep-patch",
+  "version": "0.1.0",
+  "description": "Modify an object recursively by an array of sequential patches.",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grindcode/deep-patch.git"
+  },
+  "keywords": [
+    "deep",
+    "merge",
+    "patch",
+    "array",
+    "changes",
+    "set",
+    "push",
+    "unshift",
+    "push",
+    "filter",
+    "map",
+    "apply",
+    "merge",
+    "secuencial"
+  ],
+  "author": "Isis T. Baulig",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/grindcode/deep-patch/issues"
+  },
+  "homepage": "https://github.com/grindcode/deep-patch#readme",
+  "devDependencies": {
+    "benchmark": "^2.1.0",
+    "tape": "^4.4.0"
+  },
+  "dependencies": {
+    "lodash.assign": "^4.0.2",
+    "lodash.clonedeep": "^4.1.0",
+    "lodash.concat": "^4.0.1",
+    "lodash.merge": "^4.0.4",
+    "lodash.reduce": "^4.0.2",
+    "traverse": "^0.6.6"
+  }
+}
