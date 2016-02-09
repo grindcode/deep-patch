@@ -15,13 +15,14 @@ Returns new _Object_ modified recursively by `mods`, an array of one or more seq
 * `patches`: Array of patches. (**Array**)
 
 ### patch operations
-* `{path: {$set: value}}`:
-* `{path: {$push: value}}`:
-* `{path: {$unshift: value}}`:
-* `{path: {$filter: value}}`:
-* `{path: {$map: value}}`:
-* `{path: {$apply: value}}`:
-* `{path: {$merge: value}}`:
+If `path` is not found in `input`, a new value is created. Type is defined by expected value.
+* `{path: {$set: value}}`: Set a _mixed_ value to `path`.
+* `{path: {$push: value}}`: Push `value` to _Array_ in `path`.
+* `{path: {$unshift: value}}`: Unshift `value` to _Array_ in `path`.
+* `{path: {$filter: value}}`: Applies `value` as filter _Function_ to _Array_ in `path`.
+* `{path: {$map: value}}`: Applies `value` as map _Function_ to _Array_ in `path`.
+* `{path: {$apply: value}}`: Applies `value` as _Function_ to _any_ value in `path`. Input value in same `path` is provided as first argument.
+* `{path: {$merge: value}}`: Merges `value` into `path` _Object_.
 
 ### Usage
 ```javascript
