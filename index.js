@@ -1,4 +1,3 @@
-var cloneDeep = require('lodash.clonedeep')
 var assign = require('lodash.assign')
 var merge = require('lodash.merge')
 var reduce = require('lodash.reduce')
@@ -16,9 +15,8 @@ module.exports = function (obj, mods) {
   if (!Array.isArray(mods))
     throw new TypeError('Invalid second argument. Array is expected.')
   var apply = function (source, mod) {
-    var getSourceNode = function (path) {
-      return traverse(source).get(path)
-    }
+    var traversedMod = traverse(mod)
+    var traversedSource = traverse(source)
     var transformNode = function (node) {
       var isOperation = function (name) {
         return node.hasOwnProperty(name)
@@ -27,9 +25,9 @@ module.exports = function (obj, mods) {
         return node
       if (isOperation('$set'))
         return node.$set
-      var sourceNode = getSourceNode(this.path)
+      var sourceNode = traversedSource.get(this.path)
       if (isOperation('$push'))
-        return concat(sourceNode, [node.$push])
+        return (sourceNode)? concat(sourceNode, [node.$push]): [node.$push]
       if (isOperation('$unshift'))
         return (sourceNode)? concat([node.$unshift], sourceNode): [node.$unshift]
       if (isOperation('$filter'))
@@ -42,7 +40,7 @@ module.exports = function (obj, mods) {
         return merge(sourceNode, node.$merge)
       return node
     }
-    return assign(source, traverse(mod).map(transformNode))
+    return assign({}, source, traversedMod.map(transformNode))
   }
-  return reduce(mods, apply, cloneDeep(obj))
+  return reduce(mods, apply, obj)
 }
