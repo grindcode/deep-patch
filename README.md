@@ -19,14 +19,30 @@ If `path` is not found in `input`, a new value is created. Type is defined by ex
 * `{path: {$set: value}}`: Set a _mixed_ value to `path`.
 * `{path: {$push: value}}`: Push `value` to _Array_ in `path`.
 * `{path: {$unshift: value}}`: Unshift `value` to _Array_ in `path`.
-* `{path: {$filter: value}}`: Applies `value` as filter _Function_ to _Array_ in `path`.
-* `{path: {$map: value}}`: Applies `value` as map _Function_ to _Array_ in `path`.
-* `{path: {$apply: value}}`: Applies `value` as _Function_ to _any_ value in `path`. Input value in same `path` is provided as first argument.
+* `{path: {$filter: value}}`: Runs `value` as filter _Function_ to _Array_ in `path`.
+* `{path: {$map: value}}`: Runs `value` as map _Function_ to _Array_ in `path`.
+* `{path: {$apply: value}}`: Runs `value` as _Function_ to _any_ value in `path`. Input value in same `path` is provided as first argument.
 * `{path: {$merge: value}}`: Merges `value` into `path` _Object_.
 
 ### Usage
 ```javascript
-// → {}
+var patch = require('deep-patch')
+
+var data = {
+  a: {aa: {aaa: 'string' }},
+  b: 'string',
+}
+
+patch(data, [
+  {a: {aa: {aaa: {$set: 'modified string' }}}},
+  {b: {$set: 'modified string' }}
+])
+
+// →
+// {
+//   a: {aa: {aaa: 'modified string' }},
+//   b: 'modified string'
+// }
 ```
 
 ## Benchmark
