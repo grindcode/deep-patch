@@ -38,7 +38,6 @@
   },
   "dependencies": {
     "lodash.assign": "^4.0.2",
-    "lodash.clonedeep": "^4.1.0",
     "lodash.concat": "^4.0.1",
     "lodash.merge": "^4.0.4",
     "lodash.reduce": "^4.0.2",
