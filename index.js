@@ -45,7 +45,7 @@ var operations = [{
 /**
  * Modify an object recursively by an array of sequential patches.
  * @param {Object} input - Object input.
- * @param {Array} mods - Array of patches.
+ * @param {Array} patches - Array of patches.
  * @returns {Object} Resulting object.
  */
 module.exports = function (input, patches) {
