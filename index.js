@@ -33,7 +33,7 @@ var operations = [{
   }, {
     key: '$apply',
     run: function (node, source) {
-      return node.call(null, source)
+      return node(source)
     }
   }, {
     key: '$merge',

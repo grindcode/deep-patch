@@ -4,7 +4,7 @@ var patch = require('./index.js')
 
 var data = {
   a: {aa: {aaa: 'string' }},
-  b: 'string',
+  b: 'string'
 }
 
 Suite
