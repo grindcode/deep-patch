@@ -1,5 +1,5 @@
 # Deep Patch
-[![Build Status](https://travis-ci.org/grindcode/deep-patch.svg?branch=master)](https://travis-ci.org/grindcode/deep-patch) [![Dependency Status](https://david-dm.org/grindcode/deep-patch.svg)](https://david-dm.org/grindcode/deep-patch) [![devDependency Status](https://david-dm.org/grindcode/deep-patch/dev-status.svg)](https://david-dm.org/grindcode/deep-patch#info=devDependencies)
+[![Build Status](https://travis-ci.org/grindcode/deep-patch.svg?branch=master)](https://travis-ci.org/grindcode/deep-patch) [![Test Coverage](https://codeclimate.com/github/grindcode/deep-patch/badges/coverage.svg)](https://codeclimate.com/github/grindcode/deep-patch/coverage) [![Dependency Status](https://david-dm.org/grindcode/deep-patch.svg)](https://david-dm.org/grindcode/deep-patch) [![devDependency Status](https://david-dm.org/grindcode/deep-patch/dev-status.svg)](https://david-dm.org/grindcode/deep-patch#info=devDependencies)
 
 Modify an object recursively by an array of sequential patches.
 
