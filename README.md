@@ -52,7 +52,7 @@ node benchmark.js
 
 ### Results
 ```shell
-$set x 26,479 ops/sec ±6.34% (78 runs sampled)
+$set x 84,383 ops/sec ±1.60% (81 runs sampled)
 ```
 
 ## License

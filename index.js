@@ -1,7 +1,4 @@
-var assign = require('lodash.assign')
 var merge = require('lodash.merge')
-var reduce = require('lodash.reduce')
-var concat = require('lodash.concat')
 var traverse = require('traverse')
 
 // List of available operations
@@ -13,12 +10,12 @@ var operations = [{
   }, {
     key: '$push',
     run: function (node, source) {
-      return (source)? concat(source, [node]): [node]
+      return (source)? source.concat(node): [node]
     }
   }, {
     key: '$unshift',
     run: function (node, source) {
-      return (source)? concat([node], source): [node]
+      return (source)? [node].concat(source): [node]
     }
   }, {
     key: '$filter',
@@ -38,7 +35,7 @@ var operations = [{
   }, {
     key: '$merge',
     run: function (node, source) {
-      return merge(source, node)
+      return merge({}, source, node)
     }
   }]
 
@@ -66,9 +63,9 @@ module.exports = function (input, patches) {
         }
         return result
       }
-      return reduce(operations, reduceOperations, node)
+      return operations.reduce(reduceOperations, node)
     }
-    return assign({}, source, tpatch.map(transformNode))
+    return Object.assign({}, source, tpatch.map(transformNode))
   }
-  return reduce(patches, apply, input)
+  return patches.reduce(apply, input)
 }
