@@ -1,6 +1,6 @@
 {
   "name": "deep-patch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Modify an object recursively by an array of sequential patches.",
   "main": "index.js",
   "scripts": {
